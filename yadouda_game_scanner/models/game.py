@@ -5,6 +5,7 @@ from odoo import models, fields, api
 
 class YadoudaGame(models.Model):
     _name = 'yadouda.game'
+    _inherit = ['image.mixin']
     _description = 'Park Game'
     _rec_name = 'name'
 

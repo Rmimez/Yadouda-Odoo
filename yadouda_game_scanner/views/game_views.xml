@@ -16,6 +16,7 @@
                 </header>
                 <sheet>
                     <group>
+                        <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_1920', 'size': [300, 300]}"/>
                         <field name="name"/>
                         <field name="code"/>
                         <field name="active"/>
@@ -40,11 +41,42 @@
         </field>
     </record>
 
+    <record id="view_yadouda_game_kanban" model="ir.ui.view">
+        <field name="name">yadouda.game.kanban</field>
+        <field name="model">yadouda.game</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="image_128"/>
+                <field name="today_total_tickets"/>
+                <field name="active"/>
+                <field name="responsible_user_ids"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <aside class="o_kanban_aside_full">
+                            <field name="image_128" class="o_kanban_image_fill w-100" widget="image" options="{'img_class': 'object-fit-cover'}" alt="Game image"/>
+                        </aside>
+                        <main class="ps-2 d-flex flex-column justify-content-center">
+                            <field name="name" class="fw-bold"/>
+                            <div class="text-muted small"><field name="code"/></div>
+                            <div class="mt-1">
+                                <span class="badge text-bg-secondary">Today: <field name="today_total_tickets"/></span>
+                            </div>
+                            <button name="action_open_scanner" type="object" class="btn btn-primary btn-sm mt-2" string="Start Scanning" groups="yadouda_game_scanner.group_game_operator"/>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
     <record id="view_yadouda_game_list" model="ir.ui.view">
         <field name="name">yadouda.game.list</field>
         <field name="model">yadouda.game</field>
         <field name="arch" type="xml">
             <list>
+                <field name="image_128" widget="image" options="{'size': [64, 64]}"/>
                 <field name="name"/>
                 <field name="code"/>
                 <field name="today_total_tickets"/>

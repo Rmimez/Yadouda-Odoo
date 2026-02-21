@@ -6,22 +6,84 @@
             <t t-set="head">
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+                <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+                <style>
+                    :root {
+                        --scanner-bg: linear-gradient(145deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+                        --scanner-surface: rgba(30, 41, 59, 0.9);
+                        --scanner-primary: #06b6d4;
+                        --scanner-primary-glow: rgba(6, 182, 212, 0.4);
+                        --scanner-success: #10b981;
+                        --scanner-success-bg: rgba(16, 185, 129, 0.15);
+                        --scanner-error: #ef4444;
+                        --scanner-error-bg: rgba(239, 68, 68, 0.15);
+                        --scanner-text: #f1f5f9;
+                        --scanner-muted: #94a3b8;
+                        --scanner-border: rgba(148, 163, 184, 0.2);
+                    }
+                    body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--scanner-bg); min-height: 100vh; color: var(--scanner-text); margin: 0; }
+                    .y-scanner-wrap { min-height: 100vh; display: flex; flex-direction: column; padding: 1.5rem; max-width: 560px; margin: 0 auto; }
+                    .y-scanner-header {
+                        text-align: center; padding: 1.25rem 1rem; margin-bottom: 1.5rem;
+                        background: var(--scanner-surface); border-radius: 1rem; border: 1px solid var(--scanner-border);
+                        box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+                    }
+                    .y-scanner-header h1 {
+                        font-size: 1.5rem; font-weight: 700; margin: 0; color: var(--scanner-text);
+                        letter-spacing: -0.02em;
+                    }
+                    .y-scanner-header .y-badge { font-size: 0.75rem; background: var(--scanner-primary); color: #0f172a; padding: 0.35rem 0.75rem; border-radius: 9999px; margin-top: 0.5rem; display: inline-block; font-weight: 600; }
+                    .y-scanner-card {
+                        flex: 1; display: flex; flex-direction: column; justify-content: center;
+                        background: var(--scanner-surface); border-radius: 1.25rem; border: 1px solid var(--scanner-border);
+                        padding: 2rem; box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.03);
+                    }
+                    .y-scanner-input-wrap { position: relative; margin-bottom: 1.5rem; }
+                    .y-scanner-input {
+                        width: 100%; padding: 1.25rem 1.5rem 1.25rem 3.5rem; font-size: 1.25rem; font-weight: 500;
+                        background: rgba(15, 23, 42, 0.6); border: 2px solid var(--scanner-border); border-radius: 1rem;
+                        color: var(--scanner-text); transition: border-color 0.2s, box-shadow 0.2s;
+                    }
+                    .y-scanner-input::placeholder { color: var(--scanner-muted); }
+                    .y-scanner-input:focus {
+                        outline: none; border-color: var(--scanner-primary); box-shadow: 0 0 0 4px var(--scanner-primary-glow);
+                    }
+                    .y-scanner-input-wrap::before {
+                        content: ''; position: absolute; left: 1.25rem; top: 50%; transform: translateY(-50%);
+                        width: 24px; height: 24px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z'/%3E%3C/svg%3E") center/contain no-repeat;
+                    }
+                    #result { min-height: 3rem; }
+                    .y-msg { padding: 1rem 1.25rem; border-radius: 0.75rem; font-weight: 500; animation: y-fadeIn 0.3s ease; }
+                    .y-msg.success { background: var(--scanner-success-bg); color: var(--scanner-success); border: 1px solid rgba(16, 185, 129, 0.4); }
+                    .y-msg.error { background: var(--scanner-error-bg); color: var(--scanner-error); border: 1px solid rgba(239, 68, 68, 0.4); }
+                    @keyframes y-fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+                    .y-counter-wrap {
+                        margin-top: auto; padding-top: 1.5rem; text-align: center;
+                        background: rgba(6, 182, 212, 0.08); border-radius: 1rem; border: 1px solid rgba(6, 182, 212, 0.2);
+                    }
+                    .y-counter-label { font-size: 0.875rem; color: var(--scanner-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem; }
+                    .y-counter-value { font-size: 2.5rem; font-weight: 700; color: var(--scanner-primary); letter-spacing: -0.02em; line-height: 1; }
+                </style>
             </t>
-            <div class="container mt-4 py-4">
-                <h1><t t-esc="game.name"/> - Scanner</h1>
+            <div class="y-scanner-wrap">
+                <header class="y-scanner-header">
+                    <h1><t t-esc="game.name"/></h1>
+                    <span class="y-badge">Scanner</span>
+                </header>
 
-                <div class="card">
-                    <div class="card-body">
+                <div class="y-scanner-card">
+                    <div class="y-scanner-input-wrap">
                         <input type="text"
                                id="barcode-input"
-                               class="form-control form-control-lg"
-                               placeholder="Scan ticket barcode"
-                               autofocus="autofocus"/>
-
-                        <div id="result" class="mt-3"></div>
-                        <div id="counter" class="mt-2">
-                            Today's total: <t t-esc="game.today_total_tickets"/>
-                        </div>
+                               class="y-scanner-input"
+                               placeholder="Scan or type ticket barcode..."
+                               autofocus="autofocus"
+                               autocomplete="off"/>
+                    </div>
+                    <div id="result"></div>
+                    <div class="y-counter-wrap">
+                        <div class="y-counter-label">Today's total</div>
+                        <div id="counter" class="y-counter-value"><t t-esc="game.today_total_tickets"/></div>
                     </div>
                 </div>
             </div>
@@ -51,15 +113,15 @@
                         }).then(function(r) { return r.json(); }).then(function(data) {
                             var res = data.result || data;
                             if (res.status === 'success') {
-                                resultDiv.innerHTML = '<div class="alert alert-success">' + (res.message || 'OK') + '</div>';
-                                counterDiv.textContent = "Today's total: " + (res.game_total || 0);
+                                resultDiv.innerHTML = '&lt;div class="y-msg success"&gt;' + (res.message || 'Ticket recorded') + '&lt;/div&gt;';
+                                counterDiv.textContent = res.game_total !== undefined ? res.game_total : counterDiv.textContent;
                                 input.value = '';
                             } else {
-                                resultDiv.innerHTML = '<div class="alert alert-danger">' + (res.message || 'Error') + '</div>';
+                                resultDiv.innerHTML = '&lt;div class="y-msg error"&gt;' + (res.message || 'Error') + '&lt;/div&gt;';
                             }
                             input.focus();
                         }).catch(function(err) {
-                            resultDiv.innerHTML = '<div class="alert alert-danger">Network error</div>';
+                            resultDiv.innerHTML = '&lt;div class="y-msg error"&gt;Network error. Please try again.&lt;/div&gt;';
                             input.focus();
                         });
                     }
