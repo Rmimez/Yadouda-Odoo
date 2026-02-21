@@ -24,13 +24,13 @@
     <record id="action_yadouda_games" model="ir.actions.act_window">
         <field name="name">Games</field>
         <field name="res_model">yadouda.game</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'search_default_my_games': 1}</field>
     </record>
 
     <record id="action_yadouda_consumption" model="ir.actions.act_window">
         <field name="name">Ticket Consumption</field>
         <field name="res_model">ticket.consumption</field>
-        <field name="view_mode">tree,graph,pivot</field>
+        <field name="view_mode">list,graph,pivot</field>
     </record>
 </odoo>

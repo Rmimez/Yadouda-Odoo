@@ -40,16 +40,16 @@
         </field>
     </record>
 
-    <record id="view_yadouda_game_tree" model="ir.ui.view">
-        <field name="name">yadouda.game.tree</field>
+    <record id="view_yadouda_game_list" model="ir.ui.view">
+        <field name="name">yadouda.game.list</field>
         <field name="model">yadouda.game</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="code"/>
                 <field name="today_total_tickets"/>
                 <field name="active"/>
-            </tree>
+            </list>
         </field>
     </record>
 

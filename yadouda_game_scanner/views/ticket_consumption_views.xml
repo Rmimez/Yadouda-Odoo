@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_ticket_consumption_tree" model="ir.ui.view">
-        <field name="name">ticket.consumption.tree</field>
+    <record id="view_ticket_consumption_list" model="ir.ui.view">
+        <field name="name">ticket.consumption.list</field>
         <field name="model">ticket.consumption</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="game_id"/>
                 <field name="ticket_code"/>
                 <field name="ticket_count"/>
                 <field name="operator_id"/>
                 <field name="date"/>
                 <field name="create_date"/>
-            </tree>
+            </list>
         </field>
     </record>
 
