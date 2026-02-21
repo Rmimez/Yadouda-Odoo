@@ -1,25 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem
-        id="menu_yadouda_games"
-        name="Games"
-        sequence="10"/>
-
-    <menuitem
-        id="menu_yadouda_game_list"
-        name="My Games"
-        parent="menu_yadouda_games"
-        action="action_yadouda_games"
-        groups="yadouda_game_scanner.group_game_operator"
-        sequence="10"/>
-
-    <menuitem
-        id="menu_yadouda_consumption_reports"
-        name="Consumption Reports"
-        parent="menu_yadouda_games"
-        action="action_yadouda_consumption"
-        groups="yadouda_game_scanner.group_game_manager"
-        sequence="20"/>
 
     <record id="action_yadouda_games" model="ir.actions.act_window">
         <field name="name">Games</field>
@@ -33,4 +13,27 @@
         <field name="res_model">ticket.consumption</field>
         <field name="view_mode">list,graph,pivot</field>
     </record>
+
+    <menuitem
+            id="menu_yadouda_games"
+            name="Games"
+            sequence="10"/>
+
+    <menuitem
+            id="menu_yadouda_game_list"
+            name="My Games"
+            parent="menu_yadouda_games"
+            action="action_yadouda_games"
+            groups="yadouda_game_scanner.group_game_operator"
+            sequence="10"/>
+
+    <menuitem
+            id="menu_yadouda_consumption_reports"
+            name="Consumption Reports"
+            parent="menu_yadouda_games"
+            action="action_yadouda_consumption"
+            groups="yadouda_game_scanner.group_game_manager"
+            sequence="20"/>
+
+
 </odoo>
