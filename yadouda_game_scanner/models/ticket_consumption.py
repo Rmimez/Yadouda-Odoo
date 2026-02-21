@@ -55,8 +55,8 @@ class TicketConsumption(models.Model):
             'operator_id': self.env.user.id,
         })
 
-        # Invalidate so today_total_tickets is recomputed
-        game.invalidate_recordset(['today_total_tickets'])
+        # Invalidate computed fields so next read returns updated totals
+        game.invalidate_recordset(['today_consumption_ids', 'today_total_tickets'])
         return {
             'status': 'success',
             'message': f'Ticket {ticket_code} recorded',

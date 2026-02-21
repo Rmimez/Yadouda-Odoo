@@ -19,16 +19,25 @@ class YadoudaGame(models.Model):
         domain=[('share', '=', False)]  # Internal users only
     )
 
-    # Current consumption tracking
-    today_consumption_ids = fields.One2many(
+    # Current consumption tracking (computed so "today" is evaluated at read time)
+    today_consumption_ids = fields.Many2many(
         'ticket.consumption',
-        'game_id',
-        domain=[('date', '=', fields.Date.today)]
+        string="Today's Consumption",
+        compute='_compute_today_consumption',
+        compute_sudo=False,
     )
     today_total_tickets = fields.Integer(
         string="Today's Tickets",
         compute='_compute_today_totals'
     )
+
+    def _compute_today_consumption(self):
+        today = fields.Date.context_today(self)
+        for game in self:
+            game.today_consumption_ids = self.env['ticket.consumption'].search([
+                ('game_id', '=', game.id),
+                ('date', '=', today),
+            ])
 
     # Scanner button action
     def action_open_scanner(self):
