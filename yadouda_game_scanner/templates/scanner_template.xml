@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="scanner_template" name="Game Scanner">
+        <t t-call="web.frontend_layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+            <t t-set="body_classname" t-value="''"/>
+            <div class="container mt-4">
+                <h1><t t-esc="game.name"/> - Scanner</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <input type="text"
+                               id="barcode-input"
+                               class="form-control form-control-lg"
+                               placeholder="Scan ticket barcode"
+                               autofocus="autofocus"/>
+
+                        <div id="result" class="mt-3"></div>
+                        <div id="counter" class="mt-2">
+                            Today's total: <t t-esc="game.today_total_tickets"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                (function() {
+                    var gameId = <t t-esc="game.id"/>;
+                    var csrfToken = '<t t-esc="request.csrf_token()"/>';
+                    var input = document.getElementById('barcode-input');
+                    var resultDiv = document.getElementById('result');
+                    var counterDiv = document.getElementById('counter');
+
+                    function doScan(barcode) {
+                        if (!barcode || !barcode.trim()) return;
+                        fetch('/yadouda/scan', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            body: JSON.stringify({
+                                jsonrpc: '2.0',
+                                method: 'call',
+                                params: { game_id: gameId, ticket_code: barcode.trim() },
+                                id: 1
+                            })
+                        }).then(function(r) { return r.json(); }).then(function(data) {
+                            var res = data.result || data;
+                            if (res.status === 'success') {
+                                resultDiv.innerHTML = '<div class="alert alert-success">' + (res.message || 'OK') + '</div>';
+                                counterDiv.textContent = "Today's total: " + (res.game_total || 0);
+                                input.value = '';
+                            } else {
+                                resultDiv.innerHTML = '<div class="alert alert-danger">' + (res.message || 'Error') + '</div>';
+                            }
+                            input.focus();
+                        }).catch(function(err) {
+                            resultDiv.innerHTML = '<div class="alert alert-danger">Network error</div>';
+                            input.focus();
+                        });
+                    }
+
+                    input.addEventListener('keypress', function(e) {
+                        if (e.which === 13) {
+                            e.preventDefault();
+                            doScan(input.value);
+                        }
+                    });
+                    input.focus();
+                })();
+            </script>
+        </t>
+    </template>
+</odoo>

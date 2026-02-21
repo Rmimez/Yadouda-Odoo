@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ticket_consumption_tree" model="ir.ui.view">
+        <field name="name">ticket.consumption.tree</field>
+        <field name="model">ticket.consumption</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="game_id"/>
+                <field name="ticket_code"/>
+                <field name="ticket_count"/>
+                <field name="operator_id"/>
+                <field name="date"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_ticket_consumption_form" model="ir.ui.view">
+        <field name="name">ticket.consumption.form</field>
+        <field name="model">ticket.consumption</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="game_id"/>
+                        <field name="ticket_code"/>
+                        <field name="ticket_count"/>
+                        <field name="operator_id"/>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="Notes..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ticket_consumption_search" model="ir.ui.view">
+        <field name="name">ticket.consumption.search</field>
+        <field name="model">ticket.consumption</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="ticket_code"/>
+                <field name="game_id"/>
+                <field name="operator_id"/>
+                <filter name="filter_today" string="Today" domain="[('date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_ticket_consumption_graph" model="ir.ui.view">
+        <field name="name">ticket.consumption.graph</field>
+        <field name="model">ticket.consumption</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="game_id"/>
+                <field name="ticket_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_ticket_consumption_pivot" model="ir.ui.view">
+        <field name="name">ticket.consumption.pivot</field>
+        <field name="model">ticket.consumption</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="game_id" type="row"/>
+                <field name="date" type="col"/>
+                <field name="ticket_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+</odoo>

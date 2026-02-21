@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_yadouda_game_form" model="ir.ui.view">
+        <field name="name">yadouda.game.form</field>
+        <field name="model">yadouda.game</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_open_scanner"
+                        string="Start Scanning"
+                        type="object"
+                        class="btn-primary"
+                        groups="yadouda_game_scanner.group_game_operator"
+                        invisible="uid not in responsible_user_ids"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="active"/>
+                    </group>
+
+                    <group string="Assigned Operators"
+                           groups="yadouda_game_scanner.group_game_manager">
+                        <field name="responsible_user_ids" widget="many2many_tags"/>
+                    </group>
+
+                    <group string="Today's Consumption">
+                        <field name="today_total_tickets"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Today's Records">
+                            <field name="today_consumption_ids">
+                                <tree>
+                                    <field name="ticket_code"/>
+                                    <field name="operator_id"/>
+                                    <field name="create_date"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_yadouda_game_tree" model="ir.ui.view">
+        <field name="name">yadouda.game.tree</field>
+        <field name="model">yadouda.game</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="today_total_tickets"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_yadouda_game_search" model="ir.ui.view">
+        <field name="name">yadouda.game.search</field>
+        <field name="model">yadouda.game</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <filter
+                    name="my_games"
+                    string="My Games"
+                    domain="[('responsible_user_ids', 'in', [uid])]"/>
+            </search>
+        </field>
+    </record>
+</odoo>
