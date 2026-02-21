@@ -32,13 +32,7 @@
 
                     <notebook>
                         <page string="Today's Records">
-                            <field name="today_consumption_ids">
-                                <tree>
-                                    <field name="ticket_code"/>
-                                    <field name="operator_id"/>
-                                    <field name="create_date"/>
-                                </tree>
-                            </field>
+                            <field name="today_consumption_ids" options="{'no_create': True}"/>
                         </page>
                     </notebook>
                 </sheet>
