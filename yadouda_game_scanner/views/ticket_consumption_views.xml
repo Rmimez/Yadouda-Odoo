@@ -36,6 +36,32 @@
         </field>
     </record>
 
+    <record id="view_ticket_consumption_kanban" model="ir.ui.view">
+        <field name="name">ticket.consumption.kanban</field>
+        <field name="model">ticket.consumption</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="operator_id" class="o_kanban_small_column">
+                <field name="ticket_code"/>
+                <field name="ticket_count"/>
+                <field name="operator_id"/>
+                <field name="date"/>
+                <field name="game_id"/>
+                <field name="create_date"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <div class="d-flex flex-column w-100 p-3">
+                            <div class="fw-bold mb-1"><field name="ticket_code"/></div>
+                            <div class="text-muted small">
+                                <field name="operator_id"/> · <field name="date"/>
+                            </div>
+                            <span class="badge text-bg-secondary mt-1 w-fit"><field name="ticket_count"/> ticket(s)</span>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
     <record id="view_ticket_consumption_search" model="ir.ui.view">
         <field name="name">ticket.consumption.search</field>
         <field name="model">ticket.consumption</field>

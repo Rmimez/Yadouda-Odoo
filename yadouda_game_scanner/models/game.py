@@ -12,6 +12,11 @@ class YadoudaGame(models.Model):
     name = fields.Char(string='Game Name', required=True)
     code = fields.Char(string='Game Code', required=True, help='Short code for scanning')
     active = fields.Boolean(string='Active', default=True)
+    investor_id = fields.Many2one(
+        'res.partner',
+        string='Investor',
+        help='Investor or partner associated with this game.',
+    )
 
     # Assign responsible users
     responsible_user_ids = fields.Many2many(
