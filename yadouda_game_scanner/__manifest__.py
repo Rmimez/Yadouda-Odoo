@@ -12,8 +12,9 @@ Yadouda Game Tickets Scanner
 * Record ticket consumption per game and date
 * Operator and manager security groups
     """,
-    'author': 'Yadouda',
-    'website': '',
+    'author': 'HACHEMI Mohamed Ramzi',
+    'email': 'mohamed.ramzi.hachemi@gmail.com',
+    'website': 'https://www.linkedin.com/in/mohamed-djazairi-574b4a15b/',
     'depends': ['base', 'web'],
     'data': [
         'security/security_groups.xml',
