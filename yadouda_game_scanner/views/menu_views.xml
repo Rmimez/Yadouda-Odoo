@@ -17,7 +17,8 @@
     <menuitem
             id="menu_yadouda_games"
             name="Games"
-            sequence="10"/>
+            sequence="10"
+            web_icon="yadouda_game_scanner,static/description/icon.png"/>
 
     <menuitem
             id="menu_yadouda_game_list"

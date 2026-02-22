@@ -16,6 +16,7 @@ Yadouda Game Tickets Scanner
     'email': 'mohamed.ramzi.hachemi@gmail.com',
     'website': 'https://www.linkedin.com/in/mohamed-djazairi-574b4a15b/',
     'depends': ['base', 'web'],
+    'icon': '/yadouda_game_scanner/static/description/icon.png',
     'data': [
         'security/security_groups.xml',
         'security/ir.model.access.csv',
