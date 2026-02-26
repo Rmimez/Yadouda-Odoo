@@ -1,5 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_game_operator,game.operator.game,yadouda_game_scanner.model_yadouda_game,yadouda_game_scanner.group_game_operator,1,0,0,0
 access_game_operator_consumption,game.operator.consumption,yadouda_game_scanner.model_ticket_consumption,yadouda_game_scanner.group_game_operator,1,1,1,0
+access_game_operator_ticket_line,game.operator.ticket.line,yadouda_game_scanner.model_yadouda_game_ticket_line,yadouda_game_scanner.group_game_operator,1,1,1,1
 access_game_manager_game,game.manager.game,yadouda_game_scanner.model_yadouda_game,yadouda_game_scanner.group_game_manager,1,1,1,1
 access_game_manager_consumption,game.manager.consumption,yadouda_game_scanner.model_ticket_consumption,yadouda_game_scanner.group_game_manager,1,1,1,1
+access_game_manager_ticket_line,game.manager.ticket.line,yadouda_game_scanner.model_yadouda_game_ticket_line,yadouda_game_scanner.group_game_manager,1,1,1,1

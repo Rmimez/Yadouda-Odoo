@@ -15,7 +15,7 @@ Yadouda Game Tickets Scanner
     'author': 'HACHEMI Mohamed Ramzi',
     'email': 'mohamed.ramzi.hachemi@gmail.com',
     'website': 'https://www.linkedin.com/in/mohamed-djazairi-574b4a15b/',
-    'depends': ['base', 'web'],
+    'depends': ['base', 'web', 'product', 'account'],
     'icon': '/yadouda_game_scanner/static/description/icon.png',
     'data': [
         'security/security_groups.xml',
