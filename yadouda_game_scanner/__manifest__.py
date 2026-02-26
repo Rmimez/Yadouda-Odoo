@@ -23,6 +23,7 @@ Yadouda Game Tickets Scanner
         'views/game_views.xml',
         'views/ticket_consumption_views.xml',
         'views/menu_views.xml',
+        'wizard/pay_investor_wizard_views.xml',
         'templates/scanner_template.xml',
     ],
     'installable': True,

@@ -38,6 +38,13 @@ class YadoudaGame(models.Model):
         compute='_compute_today_totals'
     )
 
+    # All scanned tickets (not only today)
+    consumption_ids = fields.One2many(
+        'ticket.consumption',
+        'game_id',
+        string='All scanned tickets',
+    )
+
     # Bulk ticket entry (lines with date, product, quantity, total)
     ticket_line_ids = fields.One2many(
         'yadouda.game.ticket.line',
@@ -112,51 +119,17 @@ class YadoudaGame(models.Model):
             game.total_bulk_amount = sum(game.ticket_line_ids.mapped('amount'))
 
     def action_pay_investor(self):
-        """Create a vendor bill for the investor from the bulk ticket lines."""
+        """Open the wizard to select date range and create a vendor bill."""
         self.ensure_one()
         if not self.investor_id:
             raise UserError(_('Please set an Investor on this game before paying.'))
-        if not self.ticket_line_ids:
-            raise UserError(_('Please add at least one ticket line in the "Bulk ticket entry" tab.'))
-
-        Journal = self.env['account.journal']
-        journal = Journal.search([
-            ('company_id', '=', self.company_id.id),
-            ('type', '=', 'purchase'),
-        ], limit=1)
-        if not journal:
-            raise UserError(_('No purchase journal found for company %s.', self.company_id.name))
-
-        invoice_lines = []
-        for line in self.ticket_line_ids:
-            account = line.product_id.property_account_expense_id or line.product_id.categ_id.property_account_expense_categ_id
-            if not account:
-                raise UserError(_('Product %s has no expense account configured.', line.product_id.display_name))
-            invoice_lines.append((0, 0, {
-                'display_type': 'product',
-                'product_id': line.product_id.id,
-                'name': line.product_id.display_name,
-                'quantity': line.quantity,
-                'price_unit': line.unit_price,
-                'account_id': account.id,
-                'product_uom_id': line.product_id.uom_id.id,
-            }))
-
-        move = self.env['account.move'].create({
-            'move_type': 'in_invoice',
-            'partner_id': self.investor_id.id,
-            'game_id': self.id,
-            'journal_id': journal.id,
-            'invoice_date': fields.Date.context_today(self),
-            'invoice_line_ids': invoice_lines,
-        })
         return {
             'type': 'ir.actions.act_window',
-            'res_model': 'account.move',
-            'res_id': move.id,
+            'name': _('Pay investor'),
+            'res_model': 'yadouda.game.pay.investor.wizard',
             'view_mode': 'form',
-            'views': [(False, 'form')],
-            'context': {'default_move_type': 'in_invoice'},
+            'target': 'new',
+            'context': {'default_game_id': self.id},
         }
 
     def action_open_investor_bills(self):

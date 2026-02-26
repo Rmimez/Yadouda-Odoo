@@ -19,7 +19,7 @@
                             type="object"
                             class="btn-secondary"
                             groups="yadouda_game_scanner.group_game_manager"
-                            invisible="not investor_id or not ticket_line_ids"/>
+                            invisible="not investor_id"/>
                 </header>
                 <sheet>
                     <group>
@@ -55,6 +55,17 @@
                     <notebook>
                         <page string="Today's Records">
                             <field name="today_consumption_ids" mode="kanban" options="{'no_create': True}"/>
+                        </page>
+                        <page string="All scanned tickets">
+                            <field name="consumption_ids" nolabel="1" options="{'no_create': True}">
+                                <list create="0" delete="0" edit="0">
+                                    <field name="ticket_code"/>
+                                    <field name="ticket_count"/>
+                                    <field name="operator_id"/>
+                                    <field name="date"/>
+                                    <field name="create_date"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Bulk ticket entry">
                             <group>

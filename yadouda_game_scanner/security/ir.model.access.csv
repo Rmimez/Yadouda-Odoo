@@ -5,3 +5,4 @@ access_game_operator_ticket_line,game.operator.ticket.line,yadouda_game_scanner.
 access_game_manager_game,game.manager.game,yadouda_game_scanner.model_yadouda_game,yadouda_game_scanner.group_game_manager,1,1,1,1
 access_game_manager_consumption,game.manager.consumption,yadouda_game_scanner.model_ticket_consumption,yadouda_game_scanner.group_game_manager,1,1,1,1
 access_game_manager_ticket_line,game.manager.ticket.line,yadouda_game_scanner.model_yadouda_game_ticket_line,yadouda_game_scanner.group_game_manager,1,1,1,1
+access_game_manager_pay_wizard,game.manager.pay.wizard,yadouda_game_scanner.model_yadouda_game_pay_investor_wizard,yadouda_game_scanner.group_game_manager,1,1,1,1
