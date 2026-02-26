@@ -18,6 +18,17 @@ class YadoudaGame(models.Model):
         string='Investor',
         help='Investor or partner associated with this game.',
     )
+    revenue_percentage = fields.Float(
+        string='Revenue %',
+        default=50.0,
+        help='Percentage of revenue to bill the investor (e.g. 50 = 50%%). Used when creating vendor bills.',
+    )
+
+    @api.constrains('revenue_percentage')
+    def _check_revenue_percentage(self):
+        for game in self:
+            if game.revenue_percentage is not False and (game.revenue_percentage < 0 or game.revenue_percentage > 100):
+                raise UserError(_('Revenue %% must be between 0 and 100.'))
 
     # Assign responsible users
     responsible_user_ids = fields.Many2many(

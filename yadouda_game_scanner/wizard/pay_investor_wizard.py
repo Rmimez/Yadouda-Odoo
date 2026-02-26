@@ -111,6 +111,9 @@ class YadoudaGamePayInvestorWizard(models.TransientModel):
             raise UserError(_('No purchase journal found for company %s.', game.company_id.name))
 
         invoice_lines = []
+        revenue_pct = (game.revenue_percentage or 0.0) / 100.0
+        if revenue_pct <= 0 or revenue_pct > 1.0:
+            revenue_pct = 0.5  # fallback 50%
         for line in self.line_ids:
             account = (
                 line.product_id.property_account_expense_id
@@ -118,11 +121,13 @@ class YadoudaGamePayInvestorWizard(models.TransientModel):
             )
             if not account:
                 raise UserError(_('Product %s has no expense account configured.', line.product_id.display_name))
+            # Apply revenue percentage to quantity on the bill
+            bill_quantity = line.quantity * revenue_pct
             invoice_lines.append((0, 0, {
                 'display_type': 'product',
                 'product_id': line.product_id.id,
                 'name': line.product_id.display_name,
-                'quantity': line.quantity,
+                'quantity': bill_quantity,
                 'price_unit': line.unit_price,
                 'account_id': account.id,
                 'product_uom_id': line.product_id.uom_id.id,

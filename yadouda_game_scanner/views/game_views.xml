@@ -44,6 +44,7 @@
                     <group string="Investor"
                            groups="yadouda_game_scanner.group_game_manager">
                         <field name="investor_id"/>
+                        <field name="revenue_percentage" widget="percentage"/>
                     </group>
 
                     <group string="Assigned Operators"
