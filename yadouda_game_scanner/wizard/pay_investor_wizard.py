@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import _, models, fields, api
 from odoo.exceptions import UserError
 
@@ -18,12 +20,12 @@ class YadoudaGamePayInvestorWizard(models.TransientModel):
     date_start = fields.Date(
         string='Start date',
         required=True,
-        default=fields.Date.context_today,
+        default=lambda self: self._default_previous_quarter_start(),
     )
     date_end = fields.Date(
         string='End date',
         required=True,
-        default=fields.Date.context_today,
+        default=lambda self: self._default_previous_quarter_end(),
     )
     line_ids = fields.Many2many(
         'yadouda.game.ticket.line',
@@ -51,6 +53,22 @@ class YadoudaGamePayInvestorWizard(models.TransientModel):
         related='game_id.currency_id',
         readonly=True,
     )
+
+    @api.model
+    def _default_previous_quarter_start(self):
+        """First day of the quarter before the current one (in user's timezone)."""
+        today = fields.Date.context_today(self)
+        quarter = (today.month - 1) // 3 + 1
+        current_quarter_first = today.replace(day=1, month=(quarter - 1) * 3 + 1)
+        return current_quarter_first - relativedelta(months=3)
+
+    @api.model
+    def _default_previous_quarter_end(self):
+        """Last day of the quarter before the current one (in user's timezone)."""
+        today = fields.Date.context_today(self)
+        quarter = (today.month - 1) // 3 + 1
+        current_quarter_first = today.replace(day=1, month=(quarter - 1) * 3 + 1)
+        return current_quarter_first - relativedelta(days=1)
 
     @api.depends('date_start', 'date_end', 'game_id', 'game_id.ticket_line_ids', 'game_id.ticket_line_ids.date')
     def _compute_line_ids(self):

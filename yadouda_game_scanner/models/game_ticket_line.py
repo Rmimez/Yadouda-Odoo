@@ -19,6 +19,11 @@ class YadoudaGameTicketLine(models.Model):
     quantity = fields.Float(string='Quantity', required=True, default=1.0)
     unit_price = fields.Float(string='Unit Price', digits='Product Price', default=0.0)
     amount = fields.Float(string='Total', compute='_compute_amount', store=True, digits='Product Price')
+    currency_id = fields.Many2one(
+        'res.currency',
+        related='game_id.currency_id',
+        readonly=True,
+    )
 
     @api.depends('quantity', 'unit_price')
     def _compute_amount(self):
